@@ -1,0 +1,29 @@
+.ant-menu-item {
+        padding: 10px 16px !important;
+        height: 50px !important;
+        &-icon {
+                font-size: 20px !important;
+                color: #bfbfbf !important;
+                background-color: #ffffff;
+                padding: 5px;
+                border-radius: 5px;
+                box-shadow: 0 4px 6px rgb(0 0 0/12%);
+        }
+        &-active {
+                background-color: transparent !important;
+        }
+        &:hover {
+                background-color: none;
+                box-shadow: 0 20px 27px rgb(0 0 0/5%);
+        }
+        &-selected {
+                background-color: #ffffff !important;
+                font-weight: 600;
+                color: black !important;
+                box-shadow: 0 20px 27px rgb(0 0 0/5%);
+                .ant-menu-item-icon {
+                        background-color: #1890ff;
+                        color: white !important;
+                }
+        }
+}

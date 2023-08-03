@@ -1,0 +1,23 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@import '../../src/components/sidebar/SideBar.scss';
+:root {
+    --main-bg: #fafafa;
+    --soft-bg: #384256;
+    --main-color: #000;
+    --second-color: #1890ff;
+}
+
+@layer components {
+    .label {
+        font-size: 14px;
+        color: var(--main-color);
+        font-weight: 600;
+        margin-bottom: 0;
+    }
+
+    .input {
+        padding: 10px 0;
+    }
+  }
