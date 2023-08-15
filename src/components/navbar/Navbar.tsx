@@ -4,15 +4,14 @@ import {
   BellOutlined,
 } from "@ant-design/icons";
 import { Breadcrumb } from "antd";
+import { useGetUserQuery } from "../../services/auth.service";
 
 const Navbar = () => {
+  const { data, isLoading, isFetching } = useGetUserQuery()
+  
   return (
     <div className="px-[40px] py-[10px] ml-[250px] flex justify-between items-center">
-      <Breadcrumb style={{ margin: "16px 0" }}>
-        <Breadcrumb.Item>Home</Breadcrumb.Item>
-        <Breadcrumb.Item>List</Breadcrumb.Item>
-        <Breadcrumb.Item>App</Breadcrumb.Item>
-      </Breadcrumb>
+      <Breadcrumb style={{ margin: "16px 0" }} items={[{ title: 'Home' }, { title: 'List' }, { title: 'App' }]} />
       <div className="flex items-center gap-[20px]">
         <SearchOutlined />
         <div className="relative flex">
@@ -27,7 +26,7 @@ const Navbar = () => {
             alt=""
             className="w-[26px] h-[26px] rounded-[50%] object-cover"
           />
-          <span>Jane</span>
+          <span>{data?.firstName}</span>
         </div>
         <SettingOutlined />
       </div>

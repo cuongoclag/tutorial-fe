@@ -1,18 +1,7 @@
 import axios from "axios"
+import { RequestMethods } from "../enums/RequestMethod.enum"
 
-enum RequestMethods {
-    GET='GET',
-    POST='POST',
-    PUT='PUT',
-    DELETE='DELETE',
-}
-
-interface IRequestApi {
-    endpoint: string,
-    method: RequestMethods.GET | RequestMethods.POST | RequestMethods.PUT | RequestMethods.DELETE,
-    body?: any
-}
-const requestApi = ({endpoint, method, body}:IRequestApi) => {
+const requestApi = (endpoint:string, method: RequestMethods.GET | RequestMethods.POST | RequestMethods.PUT | RequestMethods.DELETE, body?: any) => {
   const headers = {
     "Accept": "application/json",
     "Content-Type": "application/json",
@@ -42,7 +31,7 @@ const requestApi = ({endpoint, method, body}:IRequestApi) => {
         const originConfig = error.config
         if (error.response && error.response.status === 419) {
             try {
-                const result = await instance.post(`${process.env.API_URL}/auth/refresh-token`, {
+                const result = await instance.post(`${import.meta.env.VITE_API_URL}/auth/refresh-token`, {
                     refresh_token: localStorage.getItem('refresh-token')
                 })
                 const { access_token, refresh_token } = result.data;
@@ -52,7 +41,7 @@ const requestApi = ({endpoint, method, body}:IRequestApi) => {
 
                 return instance(originConfig)
             } catch (err: any) {
-                if (err.response && err.response.status === 400) {
+                if (err.response && err.response.status === 401) {
                     localStorage.removeItem('access_token')
                     localStorage.removeItem('refresh_token')
                     window.location.href = '/login'
@@ -66,7 +55,7 @@ const requestApi = ({endpoint, method, body}:IRequestApi) => {
 
   return instance.request({
     method: method,
-    url: `${process.env.API_URL}${endpoint}`,
+    url: `${import.meta.env.VITE_API_URL}${endpoint}`,
     data: body,
     responseType: "json"
   })

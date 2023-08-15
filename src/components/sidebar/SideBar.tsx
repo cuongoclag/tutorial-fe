@@ -1,6 +1,13 @@
 import { menu } from "../../data";
-import Menu from "antd/es/menu";
+import Menu, { MenuProps } from "antd/es/menu";
+import { useLocation, useNavigate } from "react-router-dom";
 const SideBar = () => {
+  const navigate = useNavigate()
+  const location = useLocation();
+
+  const onClick: MenuProps['onClick'] = (e) => {
+    navigate(e.key)
+  }
   return (
     <>
       <div className="flex items-center font-bold gap-[10px]">
@@ -9,8 +16,7 @@ const SideBar = () => {
       </div>
       <Menu
         mode="inline"
-        defaultSelectedKeys={["1"]}
-        defaultOpenKeys={["sub1"]}
+        defaultSelectedKeys={[`${location.pathname}`]}
         style={{
           height: "100%",
           borderRight: 0,
@@ -20,6 +26,7 @@ const SideBar = () => {
           paddingTop: 10
         }}
         items={menu}
+        onClick={onClick}
       />
     </>
   );

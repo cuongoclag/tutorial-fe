@@ -7,18 +7,17 @@ import type { MenuProps } from 'antd';
 
 export const menu:MenuProps['items'] = [
     {
-      key: '1',
+      key: '/',
       label: 'Trang chủ',
       icon: <AppstoreOutlined />
     },
     {
-      key: '2',
+      key: '/teacher',
       label: 'Giáo viên',
       icon: <UserOutlined />
-
     },
     {
-      key: '3',
+      key: '/student',
       label: 'Học sinh',
       icon: <TeamOutlined />
     }
