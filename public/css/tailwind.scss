@@ -2,6 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 @import '../../src/components/sidebar/SideBar.scss';
+@import '../../src/shared/customModal/customModal.scss';
 :root {
     --main-bg: #fafafa;
     --soft-bg: #384256;

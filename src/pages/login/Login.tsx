@@ -4,12 +4,13 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import ErrorMessage from "../../shared/errorMessage";
 import logo from "../../../public/img/logo.svg";
-import { useLoginMutation } from "../../services/auth.service";
+import { useGetUserQuery, useLoginMutation } from "../../services/auth.service";
 import { toast } from "react-toastify";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch } from "../../store";
-import { setAccessToken } from "../../features/auth.slice";
+import { getProfile, setAccessToken } from "../../features/auth.slice";
+import { EyeInvisibleOutlined, EyeOutlined } from "@ant-design/icons";
 
 const schema = yup
   .object({
@@ -34,22 +35,26 @@ const Login = () => {
     resolver: yupResolver(schema),
   });
 
-  const navigate = useNavigate()
-  const dispatch = useAppDispatch()
-  const [login, loginResult] = useLoginMutation()
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+  const [login, loginResult] = useLoginMutation();
+  const { data, isLoading, isFetching } = useGetUserQuery();
+
+  const [showPassword, setShowPassword] = useState(true);
 
   const onSubmit = async (value: any) => {
-    await login(value)
+    await login(value);
   };
 
   useEffect(() => {
     if (loginResult.isSuccess) {
-      dispatch(setAccessToken(loginResult.data.access_token))
-      toast.success('Đăng nhập thành công')
-      navigate('/')
+      dispatch(setAccessToken(loginResult.data.access_token));
+      dispatch(getProfile(data as any));
+      toast.success("Đăng nhập thành công");
+      navigate("/");
     }
-  }, [loginResult.isSuccess])
-  
+  }, [loginResult.isSuccess]);
+
   return (
     <div className="w-[70%] absolute top-[50%] left-[50%] -translate-x-1/2 -translate-y-1/2 flex rounded-2xl border-second-color border-2 border-solid">
       <div className="w-[55%] h-[600px] bg-[url('../../../public/img/background-login.png')] bg-cover flex flex-col justify-center pl-20 rounded-2xl">
@@ -86,12 +91,18 @@ const Login = () => {
               control={control}
               rules={{ required: true }}
               render={({ field: { onChange, value } }) => (
-                <Input
-                  placeholder="Mật khẩu"
-                  value={value}
-                  onChange={(e) => onChange(e)}
-                  className="rounded-lg h-[40px]"
-                />
+                <div className="relative">
+                  <Input
+                    placeholder="Mật khẩu"
+                    value={value}
+                    onChange={(e) => onChange(e)}
+                    className="rounded-lg h-[40px] pr-10"
+                    type={showPassword ? "password" : "text"}
+                  />
+                  <div className="absolute top-[30%] right-[5%]" onClick={() => setShowPassword(!showPassword)}>
+                    {showPassword ? <EyeOutlined /> : <EyeInvisibleOutlined />}
+                  </div>
+                </div>
               )}
             />
             {errors.password?.message && (

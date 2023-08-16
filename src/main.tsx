@@ -9,7 +9,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
-    <ToastContainer />
+    <ToastContainer position="top-center" autoClose={3000} closeOnClick/>
     <Provider store={store}>
       <App />
     </Provider>

@@ -5,7 +5,7 @@ import {
 } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 
-export const menu:MenuProps['items'] = [
+export const AdminMenu:MenuProps['items'] = [
     {
       key: '/',
       label: 'Trang chủ',

@@ -1,10 +1,23 @@
-import { menu } from "../../data";
+import { AdminMenu } from "../../data";
 import Menu, { MenuProps } from "antd/es/menu";
 import { useLocation, useNavigate } from "react-router-dom";
+import { useAppSelector } from "../../store";
+import { useEffect, useState } from "react";
 const SideBar = () => {
   const navigate = useNavigate()
-  const location = useLocation();
+  const profile = useAppSelector((state: any) => state.auth.profile)
+  const location = useLocation()
+  const [menu, setMenu] = useState<MenuProps['items']>([])
 
+
+  useEffect(() => {
+    if (profile.role.roleName === 'admin') {
+      setMenu(AdminMenu)
+    } else {
+      navigate('/login')
+    }
+  }, [profile])
+  
   const onClick: MenuProps['onClick'] = (e) => {
     navigate(e.key)
   }
