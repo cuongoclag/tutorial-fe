@@ -6,6 +6,7 @@ import Home from "./pages/home/Home";
 import Login from "./pages/login/Login";
 import LayoutContainer from './components/layout/LayoutContainer';
 import Teacher from "./pages/teacher/Teacher";
+import Student from "./pages/student/Student";
 
 
 function App() {
@@ -21,6 +22,10 @@ function App() {
         {
           path: "/teacher",
           element: <Teacher />,
+        },
+        {
+          path: "/student",
+          element: <Student />,
         }
       ]
     },

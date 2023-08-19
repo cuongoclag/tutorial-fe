@@ -14,8 +14,8 @@ const LayoutContainer = () => {
           <Sider width={250} style={{ backgroundColor: 'transparent', padding: '30px 20px', marginLeft: '20px', position: 'fixed', top: 0 }}>
             <SideBar />
           </Sider>
-          <Layout style={{ padding: '0 24px 24px' }} className="bg-main-bg ml-[270px]">
-            <Content className="m-0 min-h-screen">
+          <Layout style={{ padding: '0 24px 24px' }} className="bg-main-bg ml-[270px] min-h-[calc(100vh-100px)]">
+            <Content className="m-0 h-screen">
               <Outlet />
             </Content>
           </Layout>

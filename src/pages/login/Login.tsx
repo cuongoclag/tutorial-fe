@@ -11,6 +11,7 @@ import { useNavigate } from "react-router-dom";
 import { useAppDispatch } from "../../store";
 import { getProfile, setAccessToken } from "../../features/auth.slice";
 import { EyeInvisibleOutlined, EyeOutlined } from "@ant-design/icons";
+import { showError } from "../../helpers/handleError";
 
 const schema = yup
   .object({
@@ -53,7 +54,9 @@ const Login = () => {
       toast.success("Đăng nhập thành công");
       navigate("/");
     }
-  }, [loginResult.isSuccess]);
+    showError(loginResult.error)
+
+  }, [loginResult.isSuccess, loginResult.error]);
 
   return (
     <div className="w-[70%] absolute top-[50%] left-[50%] -translate-x-1/2 -translate-y-1/2 flex rounded-2xl border-second-color border-2 border-solid">

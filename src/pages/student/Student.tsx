@@ -1,15 +1,15 @@
 import { useState } from "react";
 import CustomTable from "../../shared/customTable";
-import { columns } from "./Teacher.config";
+import { columns } from "./Student.config";
 import requestApi from "../../helpers/api";
 import { RequestMethods } from "../../enums/RequestMethod.enum";
 import { Button } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import CustomModal from "../../shared/customModal/customModal";
-import CreateTeacher from "./Create-teacher";
+import CreateTeacher from "./Create-student";
 import { checkField, checkOrder } from "../../helpers/contants";
 
-const Teacher = () => {
+const Student = () => {
   const [isOpenCreate, setIsOpenCreate] = useState(false);
   const [tableParams, setTableParams] = useState({
     pagination: {
@@ -26,7 +26,7 @@ const Teacher = () => {
       pageSize: tableParams.pagination.pageSize,
       order: checkOrder(tableParams.order),
       field: checkField(tableParams.field),
-      role: '2256a62f-0f85-430c-817e-c5743ed342ac'
+      role: '0122420a-db29-485b-96ca-eb2647f27ef4'
     });
   
     return {
@@ -40,7 +40,7 @@ const Teacher = () => {
     <div>
       <Button type="primary" size="large" className="mb-2" onClick={() => setIsOpenCreate(true)}>
         <PlusOutlined />
-        Thêm giáo viên
+        Thêm học sinh
       </Button>
       <CustomTable
         tableParams={tableParams}
@@ -49,7 +49,7 @@ const Teacher = () => {
         getData={getData}
       />
       <CustomModal
-        title="Thêm giáo viên"
+        title="Thêm học sinh"
         open={isOpenCreate}
         content={<CreateTeacher setIsOpenCreate={setIsOpenCreate}/>}
         width={1000}
@@ -59,4 +59,4 @@ const Teacher = () => {
   );
 };
 
-export default Teacher;
+export default Student;

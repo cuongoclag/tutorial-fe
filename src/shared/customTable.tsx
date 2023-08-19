@@ -24,14 +24,16 @@ const CustomTable = (props:IProps) => {
   const fetchData = () => {
     setLoading(true)
     getData().then((res: any) => {
+      console.log(res)
       setData(res.data);
-      setLoading(false)
+      setLoading(false);
+      setTableParams({ pagination: res.pagination, order: res.sort.order, field: res.sort.field })
     })
   };
 
   useEffect(() => {
     fetchData()
-  }, [tableParams])
+  }, [JSON.stringify(tableParams)])
 
   const handleTableChange = (
     pagination: TablePaginationConfig,
@@ -54,7 +56,7 @@ const CustomTable = (props:IProps) => {
       columns={columns}
       rowKey="id"
       dataSource={data}
-      // pagination={tableParams.pagination}
+      pagination={tableParams.pagination}
       loading={loading}
       onChange={handleTableChange}
     />
