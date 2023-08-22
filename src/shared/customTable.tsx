@@ -8,7 +8,8 @@ interface IProps {
   tableParams: any,
   columns?: any,
   setTableParams: Function,
-  getData: Function
+  getData: Function,
+  reload?: Boolean
 };
 
 interface DataType {
@@ -18,13 +19,12 @@ interface DataType {
 }
 
 const CustomTable = (props:IProps) => {
-  const { tableParams, columns, setTableParams, getData } = props
+  const { tableParams, columns, setTableParams, getData, reload } = props
   const [data, setData] = useState([])
   const [loading, setLoading] = useState(false)
   const fetchData = () => {
     setLoading(true)
     getData().then((res: any) => {
-      console.log(res)
       setData(res.data);
       setLoading(false);
       setTableParams({ pagination: res.pagination, order: res.sort.order, field: res.sort.field })
@@ -33,7 +33,7 @@ const CustomTable = (props:IProps) => {
 
   useEffect(() => {
     fetchData()
-  }, [JSON.stringify(tableParams)])
+  }, [JSON.stringify(tableParams), reload])
 
   const handleTableChange = (
     pagination: TablePaginationConfig,

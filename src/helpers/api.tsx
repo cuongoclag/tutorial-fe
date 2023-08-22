@@ -13,8 +13,9 @@ const requestApi = (endpoint:string, method: RequestMethods.GET | RequestMethods
   instance.interceptors.request.use(
     (config) => {
         const token = localStorage.getItem('access_token')
+
         if (token) {
-            config.headers['Authorization'] = `Bearer ${token}`
+            config.headers['Authorization'] = `Bearer ${JSON.parse(token as string)}`
         }
         return config
     },
@@ -37,7 +38,7 @@ const requestApi = (endpoint:string, method: RequestMethods.GET | RequestMethods
                 const { access_token, refresh_token } = result.data;
                 localStorage.setItem('access_token', access_token)
                 localStorage.setItem('refresh_token', refresh_token)
-                originConfig.headers['Authorization'] = `Bearer ${access_token}`
+                originConfig.headers['Authorization'] = `Bearer ${JSON.parse(access_token as string)}`
 
                 return instance(originConfig)
             } catch (err: any) {

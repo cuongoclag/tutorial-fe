@@ -3,9 +3,15 @@ import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import ErrorMessage from "../../shared/errorMessage";
 import { Button, DatePicker, Form, Input } from "antd";
+import requestApi from "../../helpers/api";
+import { RequestMethods } from "../../enums/RequestMethod.enum";
+import { showError } from "../../helpers/handleError";
+import { convertDateTime, roleId } from "../../helpers/contants";
+import { toast } from 'react-toastify';
 
 interface IProps {
   setIsOpenCreate: Function;
+  setIsReload: Function
 }
 const schema = yup.object({
   email: yup
@@ -16,18 +22,18 @@ const schema = yup.object({
     .string()
     .min(6, "Mật khẩu có ít nhất 6 ký tự")
     .required("Vui lòng nhập mật khẩu"),
-  first_name: yup.string().required("Vui lòng nhập họ"),
-  last_name: yup.string().required("Vui lòng nhập tên"),
+  firstName: yup.string().required("Vui lòng nhập họ"),
+  lastName: yup.string().required("Vui lòng nhập tên"),
   phone1: yup.number().required("Vui lòng nhập số điện thoại"),
   phone2: yup.number().notRequired(),
   address: yup.string().required("Vui lòng nhập địa chỉ"),
-  birthday: yup.string().required("Vui lòng nhập ngày sinh"),
+  dateOfBirth: yup.string().required("Vui lòng nhập ngày sinh"),
 });
 
 type FormData = yup.InferType<typeof schema>;
 
 const CreateTeacher = (props: IProps) => {
-  const { setIsOpenCreate } = props;
+  const { setIsOpenCreate, setIsReload } = props;
   const {
     handleSubmit,
     control,
@@ -36,9 +42,20 @@ const CreateTeacher = (props: IProps) => {
     resolver: yupResolver<FormData>(schema),
   });
 
-  const onSubmit = (value: any) => {
-    setIsOpenCreate(false);
-    console.log(value);
+  const onSubmit = async (value: any) => {
+    try {
+      await requestApi('/auth/register', RequestMethods.POST, {
+        ...value,
+        dateOfBirth: convertDateTime(value.dateOfBirth).UTCTime,
+        phone2: value.phone2 ?? 0,
+        roleId: roleId.TEACHER
+      })
+      setIsOpenCreate(false);
+      toast.success('Thêm giáo viên thành công')
+      setIsReload(true)
+    } catch (error: any) {
+      showError(error.response.data.description ? error.response : error)
+    }
   };
 
   return (
@@ -94,7 +111,7 @@ const CreateTeacher = (props: IProps) => {
           <Form.Item className="label">Họ *</Form.Item>
           <div className="input">
             <Controller
-              name="first_name"
+              name="firstName"
               control={control}
               rules={{ required: true }}
               render={({ field: { onChange, value } }) => (
@@ -106,8 +123,8 @@ const CreateTeacher = (props: IProps) => {
                 />
               )}
             />
-            {errors.first_name?.message && (
-              <ErrorMessage error={errors.first_name?.message} />
+            {errors.firstName?.message && (
+              <ErrorMessage error={errors.firstName?.message} />
             )}
           </div>
         </div>
@@ -116,7 +133,7 @@ const CreateTeacher = (props: IProps) => {
           <Form.Item className="label">Tên *</Form.Item>
           <div className="input">
             <Controller
-              name="last_name"
+              name="lastName"
               control={control}
               rules={{ required: true }}
               render={({ field: { onChange, value } }) => (
@@ -128,8 +145,8 @@ const CreateTeacher = (props: IProps) => {
                 />
               )}
             />
-            {errors.last_name?.message && (
-              <ErrorMessage error={errors.last_name?.message} />
+            {errors.lastName?.message && (
+              <ErrorMessage error={errors.lastName?.message} />
             )}
           </div>
         </div>
@@ -209,7 +226,7 @@ const CreateTeacher = (props: IProps) => {
           <Form.Item className="label">Ngày sinh *</Form.Item>
           <div className="input">
             <Controller
-              name="birthday"
+              name="dateOfBirth"
               control={control}
               rules={{ required: true }}
               render={({ field: { onChange, value } }) => (
@@ -219,8 +236,8 @@ const CreateTeacher = (props: IProps) => {
                 />
               )}
             />
-            {errors.birthday?.message && (
-              <ErrorMessage error={errors.birthday?.message} />
+            {errors.dateOfBirth?.message && (
+              <ErrorMessage error={errors.dateOfBirth?.message} />
             )}
           </div>
         </div>

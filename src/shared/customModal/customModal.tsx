@@ -19,6 +19,8 @@ const CustomModal = (props: IProps) => {
       onCancel={onCancel}
       width={width}
       footer={footer}
+      destroyOnClose={true}
+      maskClosable={false}
     >
       {content}
     </Modal>

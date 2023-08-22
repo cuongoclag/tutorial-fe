@@ -13,7 +13,7 @@ const Navbar = () => {
   const profile = useAppSelector((state: any) => state.auth.profile)
 
   const logout = () => {
-    localStorage.clear
+    localStorage.clear()
     navigate('/login')
     toast.success('Đăng xuất thành công')
   }
@@ -24,7 +24,7 @@ const Navbar = () => {
 
   return (
     <div className="px-[40px] py-[10px] ml-[250px] flex justify-between items-center">
-      <Breadcrumb style={{ margin: "16px 0" }} items={[{ title: 'Home' }, { title: 'List' }, { title: 'App' }]} />
+      <Breadcrumb style={{ margin: "16px 0" }} />
       <div className="flex items-center gap-[20px]">
         <SearchOutlined />
         <div className="relative flex">

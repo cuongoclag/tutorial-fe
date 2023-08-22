@@ -9,13 +9,6 @@ interface DataType {
 
 export const columns: ColumnsType<DataType> = [
     {
-      title: 'Email',
-      dataIndex: 'email',
-      key: 'email',
-      sorter: true,
-      width: '20%',
-    },
-    {
       title: 'Họ',
       dataIndex: 'firstName',
       key: 'firstName',
@@ -25,6 +18,14 @@ export const columns: ColumnsType<DataType> = [
       title: 'Tên',
       dataIndex: 'lastName',
       key: 'lastName',
+      sorter: true,
+      width: '20%',
+    },
+    {
+      title: 'Email',
+      dataIndex: 'email',
+      key: 'email',
+      sorter: true,
       width: '20%',
     },
     {

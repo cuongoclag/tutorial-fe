@@ -7,10 +7,11 @@ import { Button } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import CustomModal from "../../shared/customModal/customModal";
 import CreateTeacher from "./Create-teacher";
-import { checkField, checkOrder } from "../../helpers/contants";
+import { checkField, checkOrder, roleId } from "../../helpers/contants";
 
 const Teacher = () => {
-  const [isOpenCreate, setIsOpenCreate] = useState(false);
+  const [isOpenCreate, setIsOpenCreate] = useState(false)
+  const [isReload, setIsReload] = useState(false)
   const [tableParams, setTableParams] = useState({
     pagination: {
       current: 1,
@@ -26,7 +27,7 @@ const Teacher = () => {
       pageSize: tableParams.pagination.pageSize,
       order: checkOrder(tableParams.order),
       field: checkField(tableParams.field),
-      role: '2256a62f-0f85-430c-817e-c5743ed342ac'
+      role: roleId.TEACHER
     });
   
     return {
@@ -47,11 +48,13 @@ const Teacher = () => {
         setTableParams={setTableParams}
         columns={columns}
         getData={getData}
+        reload={isReload}
       />
       <CustomModal
         title="Thêm giáo viên"
         open={isOpenCreate}
-        content={<CreateTeacher setIsOpenCreate={setIsOpenCreate}/>}
+        content={<CreateTeacher setIsOpenCreate={setIsOpenCreate} setIsReload={setIsReload}/>}
+        onCancel={() => setIsOpenCreate(false)}
         width={1000}
         footer={null}
       />
